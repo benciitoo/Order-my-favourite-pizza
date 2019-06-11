@@ -5,6 +5,9 @@ Note: This is just a fun project to order my favourite custom pizza from Pizza F
 I made it when I began to learn about Selenium and messed around with the webdriver, so there is no code styling to speak about. :)
 Works fine in Firefox, you will need to download Geckodriver, the version must correspond with your Firefox browser.
 
+
 0, Rename the properties file to config.properties, type in your username and password.
+
 1, Start the application.
+
 2, You need to click on the final "Order" button at the end, so you can check before ordering that every detail is correct.
