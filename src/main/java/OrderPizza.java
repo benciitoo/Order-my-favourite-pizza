@@ -44,8 +44,8 @@ public class OrderPizza {
         driver.manage().window().maximize();
         driver.get("https://pizzaforte.hu/");
 
-        type(By.cssSelector("#login_form > div:nth-child(1) > input[type=\"text\"]:nth-child(1)"), config.get("un"));
-        type(By.cssSelector("#login_form > div:nth-child(1) > input[type=\"password\"]:nth-child(2)"), config.get("pw"));
+        type(By.xpath("//*[@id='login_form']//*[@name='felhasznalonev']"), config.get("un"));
+        type(By.xpath("//*[@id='login_form']//*[@name='jelszo']"), config.get("pw"));
         click(By.id("login_button"));
 
         /* MAGYAROS PIZZA
