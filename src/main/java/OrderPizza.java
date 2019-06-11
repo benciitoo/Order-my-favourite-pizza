@@ -22,6 +22,7 @@ public class OrderPizza {
         runPizzaOrderMachine();
     }
 
+    //Works fine with Firefox at the moment, do not change
     private static void setBrowser() {
         browser = "Firefox";
     }
@@ -31,6 +32,8 @@ public class OrderPizza {
             driver = new ChromeDriver();
         }
         if (browser.contains("Firefox")) {
+            //Change the path in next line in order to use geckodriver.exe for Firefox
+            //System.setProperty("webdriver.gecko.driver", "/your/path/for/geckodriver.exe");
             driver = new FirefoxDriver();
         }
         if (browser.contains("Edge")) {
@@ -47,13 +50,8 @@ public class OrderPizza {
         type(By.xpath("//*[@id='login_form']//*[@name='felhasznalonev']"), config.get("un"));
         type(By.xpath("//*[@id='login_form']//*[@name='jelszo']"), config.get("pw"));
         click(By.id("login_button"));
-
-        /* MAGYAROS PIZZA
-        driver.findElement(By.id("pizzak")).click();
-        driver.findElement(By.cssSelector("#pizzak_list_1 > tbody > tr:nth-child(6) > td:nth-child(3) > div > div:nth-child(9)")).click();*/
-
+        
         click(By.id("kreator"));
-
         ((JavascriptExecutor) driver).executeScript("document.querySelector('#pastas_panel').style.display=\"none\"");
         ((JavascriptExecutor) driver).executeScript("document.querySelector('#toppings_panel').style.display=\"block\"");
         Thread.sleep(1000);
@@ -76,8 +74,8 @@ public class OrderPizza {
         WebElement checkoutButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("order_paying_button")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", checkoutButton);
 
-        type(By.name("megjegyzes"),
-                "Légyszíves hívjatok fel ha megérkeztetek, mert rossz a kapucsengőm. Fél perc és kint vagyok! Köszi!");
+        type(By.xpath("//*[@id='order_form']/textarea[@name='megjegyzes']"),
+                config.get("comments"));
         Thread.sleep(150);
         WebElement szeleteld = driver.findElement((By.cssSelector("#slices")));
         JavascriptExecutor js = (JavascriptExecutor) driver;
