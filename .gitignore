@@ -1,4 +1,4 @@
-src/main/properties
+src/main/properties/config.properties
 .idea/
 *.iml
 ### Java ###
