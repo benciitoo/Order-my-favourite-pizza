@@ -15,6 +15,8 @@ public class OrderPizza {
     private static String browser;
     private static WebDriver driver;
     private static HashMap<String, String> config = new HashMap<>();
+    private static JavascriptExecutor jsExecutor;
+    private static WebDriverWait wait;
 
     public static void main(String[] args) throws Exception {
         setBrowser();
@@ -39,21 +41,22 @@ public class OrderPizza {
         if (browser.contains("Edge")) {
             driver = new EdgeDriver();
         }
+        jsExecutor = (JavascriptExecutor) driver;
+        wait = new WebDriverWait(driver, 20);
     }
 
     private static void runPizzaOrderMachine() throws Exception {
         PropertyUtility.getProperties(config);
-        WebDriverWait wait = new WebDriverWait(driver, 20);
         driver.manage().window().maximize();
         driver.get("https://pizzaforte.hu/");
 
         type(By.xpath("//*[@id='login_form']//*[@name='felhasznalonev']"), config.get("un"));
         type(By.xpath("//*[@id='login_form']//*[@name='jelszo']"), config.get("pw"));
         click(By.id("login_button"));
-        
+
         click(By.id("kreator"));
-        ((JavascriptExecutor) driver).executeScript("document.querySelector('#pastas_panel').style.display=\"none\"");
-        ((JavascriptExecutor) driver).executeScript("document.querySelector('#toppings_panel').style.display=\"block\"");
+        jsExecutor.executeScript("document.querySelector('#pastas_panel').style.display=\"none\"");
+        jsExecutor.executeScript("document.querySelector('#toppings_panel').style.display=\"block\"");
         Thread.sleep(1000);
 
         click(By.id("hus_300"));
@@ -69,26 +72,22 @@ public class OrderPizza {
         click(By.id("sajt-dupla_500"));
 
         click(By.id("creator_order_button"));
-        ((JavascriptExecutor) driver).executeScript("document.querySelector('#creator_order_button').style.display=\"none\"");
+        jsExecutor.executeScript("document.querySelector('#creator_order_button').style.display=\"none\"");
 
         WebElement checkoutButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("order_paying_button")));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", checkoutButton);
+        jsExecutor.executeScript("arguments[0].click();", checkoutButton);
 
-        type(By.xpath("//*[@id='order_form']/textarea[@name='megjegyzes']"),
-                config.get("comments"));
-        Thread.sleep(150);
-        WebElement szeleteld = driver.findElement((By.cssSelector("#slices")));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].click();", szeleteld);
+        type(By.xpath("//*[@id='order_form']/textarea[@name='megjegyzes']"), config.get("comments"));
+        jsExecutor.executeScript("arguments[0].click();", driver.findElement((By.id("slices"))));
     }
 
     private static void click(By by) throws Exception {
         Thread.sleep(150);
-        driver.findElement(by).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(by)).click();
     }
 
     private static void type(By by, String value) throws Exception {
         Thread.sleep(150);
-        driver.findElement(by).sendKeys(value);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(by)).sendKeys(value);
     }
 }
