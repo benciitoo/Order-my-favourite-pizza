@@ -2,7 +2,7 @@
 Pizza Forte automated ordering
 
 Note: This is just a fun project to order my favourite custom pizza from Pizza Forte with two clicks.
-I made it when I began to learn about Selenium and messed around with the webdriver, so there is no code styling to speak about. :)
+I made it when I began to learn about Selenium and messed around with the webdriver, so there is no code styling to speak of. :)
 Works fine in Firefox, you will need to download Geckodriver, the version must correspond with your Firefox browser.
 
 
